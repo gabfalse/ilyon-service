@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* Tema dasar */
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
+
+/* Warna dinamis */
+@layer utilities {
+  .bg-primary {
+    @apply bg-white light:bg-sky-100 dark:bg-[#111];
+  }
+
+  .text-primary {
+    @apply text-slate-900 light:text-slate-900 dark:text-slate-100;
+  }
+
+  .text-secondary {
+    @apply text-slate-600 light:text-slate-600 dark:text-slate-400;
+  }
+}
