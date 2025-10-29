@@ -17,12 +17,12 @@ export default function Navbar() {
         onClick={() => navigate("/")}
         src="/ilyon.png"
         alt="Ilyon"
-        className="w-25 object-contain "
+        className="w-24 object-contain cursor-pointer transition-transform duration-300 hover:scale-110 hover:rotate-3"
       />
 
       <button
         onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        className="px-3 py-1 rounded-lg border border-slate-400 text-sm hover:opacity-80"
+        className="px-3 py-1 rounded-lg border border-slate-400 text-sm hover:opacity-80 transition"
       >
         {theme === "light" ? "🌙 Dark" : "☀️ Light"}
       </button>

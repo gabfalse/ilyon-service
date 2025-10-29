@@ -14,6 +14,8 @@ import DigitalProductPage from "./Pages/cms/DigitalProductPage";
 import AffiliateProductPage from "./Pages/cms/AffiliateProductPage";
 import FreelanceITPage from "./Pages/cms/FreelanceItPage";
 import FreelanceGeneralPage from "./Pages/cms/FreelanceGeneralPage";
+import PortfolioPage from "./Pages/PortfolioPage";
+import TestimoniPage from "./Pages/TestimoniPage";
 
 export default function App() {
   return (
@@ -69,6 +71,8 @@ export default function App() {
         <Route path="/affiliate" element={<AffiliateProducts />} />
         <Route path="/freelance-it" element={<FreelanceWeb />} />
         <Route path="/freelance-umum" element={<FreelanceGeneral />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/testimoni" element={<TestimoniPage />} />
       </Routes>
       <Footer />
     </div>
