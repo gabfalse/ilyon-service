@@ -6,5 +6,12 @@ export default function AffiliateProductPage() {
     { name: "nama", label: "Nama Produk Affiliate" },
     { name: "link", label: "Link Affiliate" },
   ];
-  return <CmsSection title="Affiliate Product CMS" fields={fields} />;
+
+  return (
+    <CmsSection
+      title="Affiliate Product CMS"
+      fields={fields}
+      table="affiliate_products" // nama tabel di Supabase
+    />
+  );
 }

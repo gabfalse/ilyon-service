@@ -8,5 +8,12 @@ export default function FreelanceITPage() {
     { name: "harga", label: "Harga" },
     { name: "link", label: "Link Pemesanan" },
   ];
-  return <CmsSection title="Freelance IT / Web CMS" fields={fields} />;
+
+  return (
+    <CmsSection
+      title="Freelance IT / Web CMS"
+      fields={fields}
+      table="freelance_it" // nama tabel di Supabase
+    />
+  );
 }

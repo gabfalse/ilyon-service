@@ -12,41 +12,36 @@ export default function AffiliateProducts() {
         .from("affiliate_products")
         .select("*");
       if (!error) setProducts(data);
+      else console.error(error);
     };
     fetchData();
   }, []);
 
   return (
-    <div className="min-h-screen bg-primary text-primary px-4 sm:px-6 py-16">
-      <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-200 dark:from-slate-900 dark:to-slate-800 text-slate-800 dark:text-slate-100 px-6 py-16">
+      <h1 className="text-4xl font-extrabold mb-10 text-center tracking-tight">
         Produk Affiliate
       </h1>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
         {products.map((p) => (
           <motion.div
             key={p.id}
-            whileHover={{ scale: 1.04, y: -5 }}
-            className="p-4 bg-card dark:bg-card-dark rounded-xl shadow-sm border border-slate-300 dark:border-slate-700 text-center"
+            whileHover={{ y: -4, scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 250 }}
+            className="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 p-4 text-center"
           >
-            {p.image_url ? (
-              <img
-                src={p.image_url}
-                alt={p.name}
-                className="w-full h-32 object-cover rounded-lg mb-3"
-              />
-            ) : (
-              <div className="w-full h-32 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg mb-3">
-                <ShoppingBag className="text-slate-400" size={32} />
-              </div>
-            )}
-            <h3 className="font-semibold text-sm sm:text-base mb-2">
-              {p.name}
-            </h3>
+            <img
+              src={p.foto}
+              alt={p.nama}
+              className="w-full h-40 object-cover rounded-lg mb-3"
+            />
+            <h3 className="font-semibold text-base mb-2">{p.nama}</h3>
             <a
               href={p.link}
               target="_blank"
-              className="text-sky-500 text-sm hover:underline"
+              rel="noreferrer"
+              className="inline-block text-sm bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg transition"
             >
               Lihat Produk
             </a>

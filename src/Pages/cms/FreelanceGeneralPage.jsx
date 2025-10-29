@@ -8,5 +8,12 @@ export default function FreelanceGeneralPage() {
     { name: "harga", label: "Harga" },
     { name: "link", label: "Link Pemesanan" },
   ];
-  return <CmsSection title="Freelance Umum CMS" fields={fields} />;
+
+  return (
+    <CmsSection
+      title="Freelance Umum CMS"
+      fields={fields}
+      table="freelance_general" // nama tabel di Supabase
+    />
+  );
 }

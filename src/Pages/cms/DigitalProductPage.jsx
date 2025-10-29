@@ -6,5 +6,12 @@ export default function DigitalProductPage() {
     { name: "nama", label: "Nama Produk" },
     { name: "link", label: "Link Produk" },
   ];
-  return <CmsSection title="Digital Product CMS" fields={fields} />;
+
+  return (
+    <CmsSection
+      title="Digital Product CMS"
+      fields={fields}
+      table="digital_products" // nama tabel di Supabase
+    />
+  );
 }
