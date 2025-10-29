@@ -45,7 +45,7 @@ export default function FreelanceGeneral() {
                 Rp {Number(s.harga).toLocaleString("id-ID")}
               </p>
               <a
-                href={s.link}
+                href={`https://wa.me/+6289517026332`}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-block w-full text-center bg-sky-500 hover:bg-sky-600 text-white py-2 rounded-lg transition"

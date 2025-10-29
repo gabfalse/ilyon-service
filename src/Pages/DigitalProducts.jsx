@@ -12,6 +12,7 @@ export default function DigitalProducts() {
         .from("digital_products")
         .select("*");
       if (!error) setProducts(data);
+      else console.error("Gagal fetch data:", error.message);
     };
     fetchData();
   }, []);
@@ -27,12 +28,12 @@ export default function DigitalProducts() {
           <motion.div
             key={p.id}
             whileHover={{ scale: 1.04, y: -5 }}
-            className="p-4 bg-card dark:bg-card-dark rounded-xl shadow-sm border border-slate-300 dark:border-slate-700 text-center"
+            className="p-4 bg-card dark:bg-card-dark rounded-xl shadow-sm border border-slate-800 dark:border-slate-700 text-center"
           >
-            {p.image_url ? (
+            {p.foto ? (
               <img
-                src={p.image_url}
-                alt={p.name}
+                src={p.foto}
+                alt={p.nama}
                 className="w-full h-32 object-cover rounded-lg mb-3"
               />
             ) : (
@@ -41,11 +42,12 @@ export default function DigitalProducts() {
               </div>
             )}
             <h3 className="font-semibold text-sm sm:text-base mb-2">
-              {p.name}
+              {p.nama}
             </h3>
             <a
               href={p.link}
               target="_blank"
+              rel="noopener noreferrer"
               className="text-sky-500 text-sm hover:underline"
             >
               Kunjungi
