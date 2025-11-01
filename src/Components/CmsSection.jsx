@@ -77,9 +77,15 @@ export default function CmsSection({ title, fields, table }) {
     setEditId(null);
   };
 
+  // 🔹 Fungsi bantu untuk slice teks panjang
+  const sliceText = (text, maxLength = 50) => {
+    if (!text) return "";
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-6 transition-colors">
-      <div className="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4 sm:px-6 transition-colors">
+      <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 overflow-hidden">
         <h1 className="text-2xl font-bold mb-6 text-center dark:text-white">
           {title}
         </h1>
@@ -93,7 +99,7 @@ export default function CmsSection({ title, fields, table }) {
                 name={f.name}
                 value={form[f.name] || ""}
                 onChange={handleChange}
-                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white"
+                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white w-full"
               >
                 <option value="">Pilih {f.label}</option>
                 {f.options.map((opt) => (
@@ -110,14 +116,14 @@ export default function CmsSection({ title, fields, table }) {
                 placeholder={f.label}
                 value={form[f.name] || ""}
                 onChange={handleChange}
-                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white"
+                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white w-full"
               />
             )
           )}
         </div>
 
         {/* 🔸 Tombol Aksi */}
-        <div className="flex gap-3 mb-6">
+        <div className="flex flex-wrap gap-3 mb-6">
           <button
             onClick={handleSave}
             disabled={saving}
@@ -148,8 +154,8 @@ export default function CmsSection({ title, fields, table }) {
         {loading && <p className="text-center text-gray-500">Memuat data...</p>}
 
         {/* 🔸 Tabel Data */}
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+        <div className="overflow-x-auto rounded-lg border border-gray-300 dark:border-gray-700">
+          <table className="w-full border-collapse text-sm md:text-base">
             <thead>
               <tr className="bg-gray-200 dark:bg-gray-700">
                 {fields.map((f) => (
@@ -169,17 +175,18 @@ export default function CmsSection({ title, fields, table }) {
               {dataList.map((item) => (
                 <tr
                   key={item.id}
-                  className="border-t border-gray-300 dark:border-gray-600"
+                  className="border-t border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700/50"
                 >
                   {fields.map((f) => (
                     <td
                       key={f.name}
-                      className="p-2 text-gray-800 dark:text-gray-100 break-words"
+                      className="p-2 text-gray-800 dark:text-gray-100 max-w-[200px] truncate"
+                      title={item[f.name] || ""}
                     >
-                      {item[f.name]}
+                      {sliceText(item[f.name], 60)}
                     </td>
                   ))}
-                  <td className="p-2 flex gap-2">
+                  <td className="p-2 flex flex-wrap gap-2">
                     <button
                       onClick={() => handleEdit(item)}
                       className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md text-sm"
