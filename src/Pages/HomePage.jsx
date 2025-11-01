@@ -60,7 +60,7 @@ export default function HomePage() {
         </h1>
         <p className="text-secondary max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
           Menyediakan berbagai layanan seperti pembuatan dan penjualan produk
-          digital, jasa freelance web, joki tugas, serta program afiliasi
+          digital, jasa freelance web, Freelance Umum, serta program afiliasi
           online.
         </p>
       </motion.div>
@@ -103,7 +103,7 @@ export default function HomePage() {
         onClick={() => setOpenModal(true)}
         className="mt-4 px-6 py-2 rounded-full bg-sky-500 hover:bg-sky-600 text-white text-sm sm:text-base font-medium transition-all"
       >
-        More Links
+        Project & Testimony
       </button>
 
       {/* Modal */}

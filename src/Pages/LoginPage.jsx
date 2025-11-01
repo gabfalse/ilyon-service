@@ -26,8 +26,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 transition-colors">
-      <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-lg w-80">
+    <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-200 dark:from-black dark:to-gray-900 text-slate-800 dark:text-slate-100 px-6 py-16 flex flex-col items-center">
+      <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-200 dark:from-black dark:to-gray-900 text-slate-800 dark:text-slate-100 px-6 py-16 flex flex-col items-center">
         <h1 className="text-2xl font-bold text-center mb-6 dark:text-white">
           Login
         </h1>

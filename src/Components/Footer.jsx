@@ -80,7 +80,7 @@ export default function Footer() {
           </div>
           <div className="flex justify-center sm:justify-start gap-4 pt-2">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/share/1AGKYcDn5f/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-blue-500 transition-transform transform hover:scale-110"
@@ -88,20 +88,12 @@ export default function Footer() {
               <Facebook size={18} />
             </a>
             <a
-              href="https://x.com"
+              href="https://x.com/jokitugasilyon?t=g5-jEsL8vtp6xKXHEuzncg&s=09"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-sky-400 transition-transform transform hover:scale-110"
             >
               <Twitter size={18} />
-            </a>
-            <a
-              href="https://ilyon.vercel.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-green-500 transition-transform transform hover:scale-110"
-            >
-              <Globe size={18} />
             </a>
           </div>
         </motion.div>

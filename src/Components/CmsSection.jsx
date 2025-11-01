@@ -8,7 +8,6 @@ export default function CmsSection({ title, fields, table }) {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // 🔹 Ambil data dari database
   const fetchData = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -29,66 +28,44 @@ export default function CmsSection({ title, fields, table }) {
     fetchData();
   }, [table]);
 
-  // 🔹 Input handler
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 🔹 Tambah atau update data
   const handleSave = async () => {
     if (Object.values(form).some((v) => !v))
       return alert("Lengkapi semua kolom terlebih dahulu.");
 
     setSaving(true);
-
-    // Hapus id dari form supaya tidak ikut dikirim (karena kolom auto increment)
     const { id, ...cleanForm } = form;
 
-    if (editId) {
-      // Update data
-      const { error } = await supabase
-        .from(table)
-        .update(cleanForm)
-        .eq("id", editId);
+    const action = editId
+      ? supabase.from(table).update(cleanForm).eq("id", editId)
+      : supabase.from(table).insert([cleanForm]);
 
-      if (error) {
-        console.error("Error update:", error);
-        alert("Gagal memperbarui data! " + error.message);
-      } else {
-        alert("Data berhasil diperbarui.");
-        setForm({});
-        setEditId(null);
-        fetchData();
-      }
+    const { error } = await action;
+
+    if (error) {
+      console.error("Error saving:", error);
+      alert("Gagal menyimpan data! " + error.message);
     } else {
-      // Insert data baru
-      const { error } = await supabase.from(table).insert([cleanForm]);
-      if (error) {
-        console.error("Error insert:", error);
-        alert("Gagal menambah data! " + error.message);
-      } else {
-        alert("Data berhasil ditambahkan.");
-        setForm({});
-        fetchData();
-      }
+      alert(
+        editId ? "Data berhasil diperbarui." : "Data berhasil ditambahkan."
+      );
+      setForm({});
+      setEditId(null);
+      fetchData();
     }
-
     setSaving(false);
   };
 
-  // 🔹 Hapus data
   const handleDelete = async (id) => {
     if (!confirm("Yakin ingin menghapus data ini?")) return;
     const { error } = await supabase.from(table).delete().eq("id", id);
-    if (error) {
-      console.error("Error delete:", error);
-      alert("Gagal menghapus data! " + error.message);
-    } else {
-      fetchData();
-    }
+    if (error) alert("Gagal menghapus data! " + error.message);
+    else fetchData();
   };
 
-  // 🔹 Edit data
   const handleEdit = (item) => {
     setForm(item);
     setEditId(item.id);
@@ -109,17 +86,34 @@ export default function CmsSection({ title, fields, table }) {
 
         {/* 🔸 Form Input */}
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-          {fields.map((f) => (
-            <input
-              key={f.name}
-              type="text"
-              name={f.name}
-              placeholder={f.label}
-              value={form[f.name] || ""}
-              onChange={handleChange}
-              className="p-2 border rounded-md dark:bg-gray-700 dark:text-white"
-            />
-          ))}
+          {fields.map((f) =>
+            f.type === "select" ? (
+              <select
+                key={f.name}
+                name={f.name}
+                value={form[f.name] || ""}
+                onChange={handleChange}
+                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white"
+              >
+                <option value="">Pilih {f.label}</option>
+                {f.options.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                key={f.name}
+                type="text"
+                name={f.name}
+                placeholder={f.label}
+                value={form[f.name] || ""}
+                onChange={handleChange}
+                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white"
+              />
+            )
+          )}
         </div>
 
         {/* 🔸 Tombol Aksi */}
@@ -139,6 +133,7 @@ export default function CmsSection({ title, fields, table }) {
               ? "Simpan Perubahan"
               : "Tambah Data"}
           </button>
+
           {editId && (
             <button
               onClick={handleCancel}
@@ -149,7 +144,7 @@ export default function CmsSection({ title, fields, table }) {
           )}
         </div>
 
-        {/* 🔸 Loading state */}
+        {/* 🔸 Loading State */}
         {loading && <p className="text-center text-gray-500">Memuat data...</p>}
 
         {/* 🔸 Tabel Data */}

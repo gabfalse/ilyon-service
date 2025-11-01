@@ -18,7 +18,7 @@ export default function FreelanceGeneral() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-200 dark:from-slate-900 dark:to-slate-800 text-slate-800 dark:text-slate-100 px-6 py-16">
+    <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-200 dark:from-black dark:to-gray-900 text-slate-800 dark:text-slate-100 px-6 py-16 flex flex-col items-center">
       <h1 className="text-4xl font-extrabold mb-10 text-center tracking-tight">
         Freelance Umum
       </h1>
@@ -50,7 +50,7 @@ export default function FreelanceGeneral() {
                 rel="noreferrer"
                 className="inline-block w-full text-center bg-sky-500 hover:bg-sky-600 text-white py-2 rounded-lg transition"
               >
-                Hubungi / Lihat Detail
+                Tanyakan Detail
               </a>
             </div>
           </motion.div>

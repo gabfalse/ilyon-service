@@ -61,7 +61,7 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 transition-colors px-6 py-10 flex flex-col items-center">
+    <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-200 dark:from-black dark:to-gray-900 text-slate-800 dark:text-slate-100 px-6 py-16 flex flex-col items-center">
       <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-lg text-center w-full max-w-5xl mb-10">
         <h1 className="text-3xl font-bold mb-2 dark:text-white">
           Halo, {user.username} 👋
