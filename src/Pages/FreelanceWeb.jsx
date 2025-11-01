@@ -4,7 +4,7 @@ import supabase from "../supabaseClient";
 
 export default function FreelanceWeb() {
   const [services, setServices] = useState([]);
-  const [selectedService, setSelectedService] = useState(null); // 👈 modal state
+  const [selectedService, setSelectedService] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +15,7 @@ export default function FreelanceWeb() {
     fetchData();
   }, []);
 
+  // Gambar otomatis berdasarkan link / fallback
   const getImageUrl = (s) => {
     if (s.foto && s.foto.trim() !== "") return s.foto;
 
@@ -36,7 +37,7 @@ export default function FreelanceWeb() {
         Freelance Web & IT
       </h1>
 
-      {/* Responsive grid */}
+      {/* GRID */}
       <div
         className="grid gap-6 sm:gap-8 max-w-6xl mx-auto w-full
         grid-cols-[repeat(auto-fit,minmax(180px,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(220px,1fr))]"
@@ -65,7 +66,7 @@ export default function FreelanceWeb() {
               </p>
 
               <button
-                onClick={() => setSelectedService(s)} // 👈 buka modal
+                onClick={() => setSelectedService(s)}
                 className="mt-auto inline-block w-full text-center bg-sky-500 hover:bg-sky-600 text-white py-2 rounded-lg transition"
               >
                 Lihat Detail
@@ -75,29 +76,55 @@ export default function FreelanceWeb() {
         ))}
       </div>
 
-      {/* Modal */}
+      {/* MODAL DETAIL */}
       {selectedService && (
-        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 px-4">
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 px-4 overflow-y-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full shadow-2xl overflow-hidden"
           >
+            {/* Gambar */}
             <img
               src={getImageUrl(selectedService)}
               alt={selectedService.nama}
               className="w-full h-56 object-cover"
             />
+
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-3">
                 {selectedService.nama}
               </h2>
+
               <p className="text-slate-700 dark:text-slate-300 mb-4 whitespace-pre-line">
                 {selectedService.deskripsi}
               </p>
+
               <p className="text-sky-600 font-semibold mb-6">
                 Rp {Number(selectedService.harga).toLocaleString("id-ID")}
               </p>
+
+              {/* 👇 Contoh Website */}
+              {selectedService.link_contoh && (
+                <div className="mb-5">
+                  <h3 className="font-semibold mb-2 text-lg">
+                    Contoh Website:
+                  </h3>
+                  <div className="flex flex-col gap-2">
+                    {selectedService.link_contoh.split(",").map((url, i) => (
+                      <a
+                        key={i}
+                        href={url.trim()}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sky-500 hover:text-sky-600 underline break-all"
+                      >
+                        {url.trim()}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="flex flex-col gap-3">
                 <a
@@ -108,6 +135,7 @@ export default function FreelanceWeb() {
                 >
                   Tanyakan Detail
                 </a>
+
                 <button
                   onClick={() => setSelectedService(null)}
                   className="bg-gray-300 dark:bg-slate-700 text-gray-800 dark:text-gray-200 py-2 rounded-lg hover:bg-gray-400 dark:hover:bg-slate-600 transition"

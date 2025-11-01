@@ -6,7 +6,12 @@ export default function FreelanceITPage() {
     { name: "nama", label: "Nama Layanan" },
     { name: "deskripsi", label: "Deskripsi" },
     { name: "harga", label: "Harga" },
-    { name: "link", label: "Link Pemesanan" },
+    { name: "link", label: "Link Pemesanan (misal WhatsApp, Shopee, dll)" },
+    {
+      name: "link_contoh",
+      label: "Link Contoh Website (pisahkan dengan koma , )",
+      placeholder: "https://example1.com, https://example2.com",
+    },
   ];
 
   return (

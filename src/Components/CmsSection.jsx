@@ -8,6 +8,7 @@ export default function CmsSection({ title, fields, table }) {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // 🔹 Ambil data dari Supabase
   const fetchData = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -77,11 +78,17 @@ export default function CmsSection({ title, fields, table }) {
     setEditId(null);
   };
 
-  // 🔹 Fungsi bantu untuk slice teks panjang
+  // 🔹 Fungsi bantu untuk potong teks panjang
   const sliceText = (text, maxLength = 50) => {
     if (!text) return "";
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
+
+  // 🔹 Deteksi apakah kolom itu adalah link
+  const isLinkField = (name) =>
+    ["link", "linkedin", "facebook", "x", "email", "github"].includes(
+      name.toLowerCase()
+    );
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4 sm:px-6 transition-colors">
@@ -92,34 +99,17 @@ export default function CmsSection({ title, fields, table }) {
 
         {/* 🔸 Form Input */}
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-          {fields.map((f) =>
-            f.type === "select" ? (
-              <select
-                key={f.name}
-                name={f.name}
-                value={form[f.name] || ""}
-                onChange={handleChange}
-                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white w-full"
-              >
-                <option value="">Pilih {f.label}</option>
-                {f.options.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <input
-                key={f.name}
-                type="text"
-                name={f.name}
-                placeholder={f.label}
-                value={form[f.name] || ""}
-                onChange={handleChange}
-                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white w-full"
-              />
-            )
-          )}
+          {fields.map((f) => (
+            <input
+              key={f.name}
+              type={isLinkField(f.name) ? "url" : "text"}
+              name={f.name}
+              placeholder={f.label}
+              value={form[f.name] || ""}
+              onChange={handleChange}
+              className="p-2 border rounded-md dark:bg-gray-700 dark:text-white w-full"
+            />
+          ))}
         </div>
 
         {/* 🔸 Tombol Aksi */}
@@ -181,9 +171,19 @@ export default function CmsSection({ title, fields, table }) {
                     <td
                       key={f.name}
                       className="p-2 text-gray-800 dark:text-gray-100 max-w-[200px] truncate"
-                      title={item[f.name] || ""}
                     >
-                      {sliceText(item[f.name], 60)}
+                      {isLinkField(f.name) && item[f.name] ? (
+                        <a
+                          href={item[f.name]}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 hover:underline"
+                        >
+                          {sliceText(item[f.name], 40)}
+                        </a>
+                      ) : (
+                        sliceText(item[f.name], 60)
+                      )}
                     </td>
                   ))}
                   <td className="p-2 flex flex-wrap gap-2">
