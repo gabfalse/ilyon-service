@@ -25,6 +25,7 @@ export default function DigitalProductPage() {
       title="Digital Product CMS"
       fields={fields}
       table="digital_products"
+      bucket="digital_product"
     />
   );
 }

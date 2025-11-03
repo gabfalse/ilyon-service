@@ -34,7 +34,8 @@ export default function AffiliateProductPage() {
     <CmsSection
       title="Affiliate Product CMS"
       fields={fields}
-      table="affiliate_products" // nama tabel di Supabase
+      table="affiliate_products"
+      bucket="affiliate_product"
     />
   );
 }

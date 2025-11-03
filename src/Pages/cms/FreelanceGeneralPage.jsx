@@ -11,9 +11,10 @@ export default function FreelanceGeneralPage() {
 
   return (
     <CmsSection
-      title="Freelance Umum CMS"
+      title="Freelance General CMS"
       fields={fields}
-      table="freelance_general" // nama tabel di Supabase
+      table="freelance_general"
+      bucket="freelance_general"
     />
   );
 }

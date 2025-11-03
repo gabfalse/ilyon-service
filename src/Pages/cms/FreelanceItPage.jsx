@@ -16,9 +16,10 @@ export default function FreelanceITPage() {
 
   return (
     <CmsSection
-      title="Freelance IT / Web CMS"
+      title="Freelance IT CMS"
       fields={fields}
-      table="freelance_it" // nama tabel di Supabase
+      table="freelance_it"
+      bucket="freelance_it"
     />
   );
 }

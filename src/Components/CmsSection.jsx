@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import supabase from "../supabaseClient";
 
-export default function CmsSection({ title, fields, table }) {
+export default function CmsSection({
+  title,
+  fields,
+  table,
+  bucket = "digital_marketing",
+}) {
   const [form, setForm] = useState({});
   const [dataList, setDataList] = useState([]);
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // 🔹 Ambil data dari Supabase
+  // 🔹 Ambil data
   const fetchData = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -19,9 +24,7 @@ export default function CmsSection({ title, fields, table }) {
     if (error) {
       console.error("Error fetch data:", error);
       alert("Gagal memuat data.");
-    } else {
-      setDataList(data);
-    }
+    } else setDataList(data);
     setLoading(false);
   };
 
@@ -31,6 +34,33 @@ export default function CmsSection({ title, fields, table }) {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // 🔹 Upload file ke bucket dinamis
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from(bucket)
+      .upload(filePath, file);
+
+    if (uploadError) {
+      console.error("Upload error:", uploadError);
+      alert("Gagal mengupload foto!");
+      return;
+    }
+
+    const { data: publicUrlData } = supabase.storage
+      .from(bucket)
+      .getPublicUrl(filePath);
+
+    const publicUrl = publicUrlData.publicUrl;
+    setForm({ ...form, foto: publicUrl });
   };
 
   const handleSave = async () => {
@@ -78,13 +108,13 @@ export default function CmsSection({ title, fields, table }) {
     setEditId(null);
   };
 
-  // 🔹 Fungsi bantu untuk potong teks panjang
-  const sliceText = (text, maxLength = 50) => {
-    if (!text) return "";
-    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-  };
+  const sliceText = (text, maxLength = 50) =>
+    !text
+      ? ""
+      : text.length > maxLength
+      ? text.slice(0, maxLength) + "..."
+      : text;
 
-  // 🔹 Deteksi apakah kolom itu adalah link
   const isLinkField = (name) =>
     ["link", "linkedin", "facebook", "x", "email", "github"].includes(
       name.toLowerCase()
@@ -99,17 +129,53 @@ export default function CmsSection({ title, fields, table }) {
 
         {/* 🔸 Form Input */}
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-          {fields.map((f) => (
-            <input
-              key={f.name}
-              type={isLinkField(f.name) ? "url" : "text"}
-              name={f.name}
-              placeholder={f.label}
-              value={form[f.name] || ""}
-              onChange={handleChange}
-              className="p-2 border rounded-md dark:bg-gray-700 dark:text-white w-full"
-            />
-          ))}
+          {fields.map((f) =>
+            f.name === "foto" ? (
+              <div key={f.name} className="flex flex-col gap-2">
+                <label className="text-gray-700 dark:text-gray-300">
+                  {f.label}
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="p-2 border rounded-md dark:bg-gray-700 dark:text-white w-full"
+                />
+                {form.foto && (
+                  <img
+                    src={form.foto}
+                    alt="preview"
+                    className="w-24 h-24 object-cover rounded-md mt-2 border"
+                  />
+                )}
+              </div>
+            ) : f.type === "select" ? (
+              <select
+                key={f.name}
+                name={f.name}
+                value={form[f.name] || ""}
+                onChange={handleChange}
+                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white w-full"
+              >
+                <option value="">Pilih {f.label}</option>
+                {f.options.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                key={f.name}
+                type={isLinkField(f.name) ? "url" : "text"}
+                name={f.name}
+                placeholder={f.label}
+                value={form[f.name] || ""}
+                onChange={handleChange}
+                className="p-2 border rounded-md dark:bg-gray-700 dark:text-white w-full"
+              />
+            )
+          )}
         </div>
 
         {/* 🔸 Tombol Aksi */}
@@ -172,7 +238,13 @@ export default function CmsSection({ title, fields, table }) {
                       key={f.name}
                       className="p-2 text-gray-800 dark:text-gray-100 max-w-[200px] truncate"
                     >
-                      {isLinkField(f.name) && item[f.name] ? (
+                      {f.name === "foto" && item[f.name] ? (
+                        <img
+                          src={item[f.name]}
+                          alt="foto"
+                          className="w-16 h-16 object-cover rounded-md"
+                        />
+                      ) : isLinkField(f.name) && item[f.name] ? (
                         <a
                           href={item[f.name]}
                           target="_blank"
