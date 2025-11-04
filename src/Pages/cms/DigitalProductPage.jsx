@@ -9,14 +9,7 @@ export default function DigitalProductPage() {
       name: "kategori",
       label: "Kategori Produk",
       type: "select",
-      options: [
-        "Ebook",
-        "Template",
-        "UI Kit",
-        "Source Code",
-        "Font",
-        "Lainnya",
-      ],
+      options: ["Ebook", "Template", "UI Kit", "Preset", "Font", "Lainnya"],
     },
   ];
 

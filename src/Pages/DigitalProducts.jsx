@@ -17,7 +17,7 @@ export default function DigitalProducts() {
     "Ebook",
     "Template",
     "UI Kit",
-    "Source Code",
+    "Preset",
     "Font",
     "Lainnya",
   ];
