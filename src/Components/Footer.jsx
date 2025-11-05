@@ -17,7 +17,7 @@ export default function Footer() {
           </h2>
           <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400 max-w-sm">
             Platform all-in-one untuk produk digital, layanan freelance, dan
-            program afiliasi.
+            product afiliasi.
           </p>
         </motion.div>
 
