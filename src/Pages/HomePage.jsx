@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
 
   const items = [
     {
@@ -100,13 +100,13 @@ export default function HomePage() {
 
       {/* Button to open modal */}
       <button
-        onClick={() => setOpenModal(true)}
+        onClick={() => navigate("/testimoni")}
         className="mt-4 px-6 py-2 rounded-full bg-sky-500 hover:bg-sky-600 text-white text-sm sm:text-base font-medium transition-all"
       >
-        Project & Testimony
+        Testimony
       </button>
 
-      {/* Modal */}
+      {/* Modal
       {openModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <motion.div
@@ -149,7 +149,7 @@ export default function HomePage() {
             </button>
           </motion.div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
